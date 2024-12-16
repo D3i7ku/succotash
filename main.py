@@ -18,9 +18,13 @@ if platform.system() == "Windows":
     style = style & ~WS_MAXIMIZEBOX
     ctypes.windll.user32.SetWindowLongW(hwnd, GWL_STYLE, style)
     ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 3)
-    enter = pystyle.Colorate.Horizontal(pystyle.Colors.green_to_cyan, ('Welcome To Want To Cry, Press "ENTER" to continue!'))
+    enter = pystyle.Colorate.Horizontal(pystyle.Colors.green_to_cyan, ('Welcome To SUCCOTASH, Press "ENTER" to continue!'))
     pystyle.Anime.Fade(
     pystyle.Center.Center('''
+
+
+
+
                                      
 ███████╗██╗   ██╗ ██████╗ ██████╗ ██████╗ ████████╗ █████╗ ███████╗██╗  ██╗
 ██╔════╝██║   ██║██╔════╝██╔════╝██╔═══██╗╚══██╔══╝██╔══██╗██╔════╝██║  ██║
@@ -28,13 +32,12 @@ if platform.system() == "Windows":
 ╚════██║██║   ██║██║     ██║     ██║   ██║   ██║   ██╔══██║╚════██║██╔══██║
 ███████║╚██████╔╝╚██████╗╚██████╗╚██████╔╝   ██║   ██║  ██║███████║██║  ██║
 ╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
-                                                                           
+                                                          
     
                                         Press To Enter
                                           
                                           
-                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical, enter=False)
-    input(enter)
+                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical, enter=True)
 
 
 RESET = "\033[0m"
@@ -151,7 +154,7 @@ def main():
 
         menu_content = """
    ┌──────────────────────────────────────────────────────────────────────────────────┐
-      • 𝙳𝚎𝚟𝚎𝚕𝚘𝚙𝚎𝚛 -  @wonchikk     • 𝚅𝚎𝚛𝚜𝚒𝚘𝚗 - 𝟷.𝟶.𝟶    • Кажд3й Д3нь В3с3лье             
+      • 𝙳𝚎𝚟𝚎𝚕𝚘𝚙𝚎𝚛 -  @shxpe     • 𝚅𝚎𝚛𝚜𝚒𝚘𝚗 - 𝟷.𝟶.𝟶    • Кажд3й Д3нь В3с3лье             
    └──────────────────────────────────────────────────────────────────────────────────┘
 
                         ┌────────────────────────────────────┐                                  
@@ -159,7 +162,7 @@ def main():
                         │ [2] • Выход                │
                         └────────────────────────────────────┘
 """
-        pystyle.Write.Print(center_text("",columns) + draw_box(menu_content, box_width, box_height), pystyle.Colors.green_to_cyan, interval=0.00000001)
+        pystyle.Write.Print(center_text("",columns) + draw_box(menu_content, box_width, box_height), pystyle.Colors.red_to_purple, interval=0.00000001)
 
         choice = get_user_input("\n\n[?] • 𝚂𝚎𝚕𝚎𝚌𝚝 𝙼𝚎𝚗𝚞 𝙸𝚝𝚎𝚖 -> ")
 
@@ -167,18 +170,17 @@ def main():
             sentence = get_user_input("Напишите предложение: ")
             letter_count = count_letters(sentence)
             clear_console()
-            pystyle.Write.Print(pystyle.Center.XCenter(draw_box(f"Количество букв в предложении: {letter_count}", box_width, box_height)), pystyle.Colors.green_to_cyan, interval=0.0025)
-            pystyle.Write.Print(pystyle.Center.XCenter("Нажмите ENTER чтобы вернуться в главное меню..."), pystyle.Colors.green_to_cyan, interval=0.0025)
-            input() 
-
+            pystyle.Write.Print(pystyle.Center.XCenter(draw_box(f"Количество букв в предложении: {letter_count}", box_width, box_height)), pystyle.Colors.green_to_cyan, interval=0.002)
+            pystyle.Write.Input("\n\n[?] Нажмите Enter для возврата в меню...", pystyle.Colors.green_to_cyan, interval=0.005)
+            continue
 
         elif choice == "2":
             clear_console()
-            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выход из программы.", box_width, box_height)), pystyle.Colors.red_to_purple, interval=0.0025)
+            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выход из программы.", box_width, box_height)), pystyle.Colors.red_to_purple, interval=0.002)
             break
         else:
             clear_console()
-            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Ошибка: Некорректный ввод. Пожалуйста, выберите доступный вариант.", box_width, box_height)), pystyle.Colors.red_to_red, interval=0.005)
+            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Ошибка: Некорректный ввод. Пожалуйста, выберите доступный вариант.", box_width, box_height)), pystyle.Colors.red_to_red, interval=0.002)
 
 
 if __name__ == "__main__":
