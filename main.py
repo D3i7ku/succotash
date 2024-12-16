@@ -103,8 +103,31 @@ def execute_xsrfprobe():
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
         
+        # Find the location of the xsrfprobe executable
+        if platform.system() == "Windows":
+            xsrfprobe_executable = "xsrfprobe"  # Assumes it's in the PATH
+        else:
+             
+             # Linux/macOS
+             # Check for the executable in standard locations first
+             xsrfprobe_executable = subprocess.check_output(["which", "xsrfprobe"]).decode().strip()
+             # If not found check in the pip installation locations
+             if not xsrfprobe_executable:
+                # Gets pip location from command output
+                pip_location_check = subprocess.check_output([sys.executable, "-m", "pip", "show", "xsrfprobe"]).decode()
+                
+                for line in pip_location_check.splitlines():
+                   if "Location" in line:
+                        location = line.split(":")[1].strip()
+                        xsrfprobe_executable = os.path.join(location, "bin", "xsrfprobe")
+                        break
+        
+        if not os.path.exists(xsrfprobe_executable):
+            print(f"Error: Could not find xsrfprobe executable at: {xsrfprobe_executable}")
+            return
+        
         # Run xsrfprobe --help and capture the output
-        process = subprocess.Popen([sys.executable, "-m", "xsrfprobe", "--help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen([xsrfprobe_executable, "--help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         
         if process.returncode == 0:
