@@ -99,9 +99,81 @@ def count_letters(sentence):
     letter_count = sum(1 for char in sentence if char.isalpha())
     return letter_count
 
+
+def execute_xsrfprobe():
+    """Выполняет команды для установки и запуска xsrfprobe."""
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
+        subprocess.check_call([sys.executable, "-m", "xsrfprobe", "--help"])
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {e}")
+    except FileNotFoundError:
+        print("Error: xsrfprobe not found. Please make sure it is installed.")
+
+def vulnerabilities_menu(rows, columns, box_width, box_height):
+    """Меню уязвимостей."""
+    while True:
+        clear_console()
+        menu_content = """
+                      ┌────────────────────────────────────┐                                  
+                      │ [1] • POC                          │
+                      │ [2] • Назад                          │
+                      │ [3] • Выход                          │
+                      └────────────────────────────────────┘
+    """
+        pystyle.Write.Print(center_text("", columns) + draw_box(menu_content, box_width, box_height), pystyle.Colors.red_to_purple, interval=0.00000001)
+
+        choice = get_user_input("\n\n[?] • 𝚂𝚎𝚕𝚎𝚌𝚝 𝙼𝚎𝚗𝚞 𝙸𝚝𝚎𝚖 -> ")
+
+        if choice == "1":
+            poc_menu(rows, columns, box_width, box_height)
+        elif choice == "2":
+            break
+        elif choice == "3":
+            clear_console()
+            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выход из программы.", box_width, box_height)), pystyle.Colors.red_to_purple, interval=0.002)
+            sys.exit()
+        else:
+             clear_console()
+             pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Ошибка: Некорректный ввод. Пожалуйста, выберите доступный вариант.", box_width, box_height)), pystyle.Colors.red_to_red, interval=0.002)
+
+def poc_menu(rows, columns, box_width, box_height):
+    """Меню POC."""
+    while True:
+        clear_console()
+        menu_content = """
+                      ┌────────────────────────────────────┐                                  
+                      │ [1] • XSRFProbe                    │
+                      │ [2] • Назад                          │
+                      │ [3] • Выход                          │
+                      └────────────────────────────────────┘
+    """
+        pystyle.Write.Print(center_text("", columns) + draw_box(menu_content, box_width, box_height), pystyle.Colors.red_to_purple, interval=0.00000001)
+
+        choice = get_user_input("\n\n[?] • 𝚂𝚎𝚕𝚎𝚌𝚝 𝙼𝚎𝚗𝚞 𝙸𝚝𝚎𝚖 -> ")
+
+        if choice == "1":
+             clear_console()
+             pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выполняется установка и запуск XSRFProbe...", box_width, box_height)), pystyle.Colors.green_to_cyan, interval=0.002)
+             execute_xsrfprobe()
+             pystyle.Write.Input("\n\n[?] Нажмите Enter для возврата в меню...", pystyle.Colors.green_to_cyan, interval=0.005)
+             
+        elif choice == "2":
+            break
+        elif choice == "3":
+            clear_console()
+            pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выход из программы.", box_width, box_height)), pystyle.Colors.red_to_purple, interval=0.002)
+            sys.exit()
+        else:
+             clear_console()
+             pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Ошибка: Некорректный ввод. Пожалуйста, выберите доступный вариант.", box_width, box_height)), pystyle.Colors.red_to_red, interval=0.002)
+
+
+
 def main():
     """Главная функция скрипта."""
     COUNT_LETTERS_ACTION = 1
+    VULNERABILITIES_ACTION = 2
     EXIT_ACTION = 0
 
     if platform.system() == "Windows":
@@ -159,7 +231,8 @@ def main():
 
                         ┌────────────────────────────────────┐                                  
                         │ [1] • Посчитать буквы               │
-                        │ [2] • Выход                │
+                        │ [2] • Уязвимости                    │
+                        │ [3] • Выход                         │
                         └────────────────────────────────────┘
 """
         pystyle.Write.Print(center_text("",columns) + draw_box(menu_content, box_width, box_height), pystyle.Colors.red_to_purple, interval=0.00000001)
@@ -173,8 +246,10 @@ def main():
             pystyle.Write.Print(pystyle.Center.XCenter(draw_box(f"Количество букв в предложении: {letter_count}", box_width, box_height)), pystyle.Colors.green_to_cyan, interval=0.002)
             pystyle.Write.Input("\n\n[?] Нажмите Enter для возврата в меню...", pystyle.Colors.green_to_cyan, interval=0.005)
             continue
-
         elif choice == "2":
+             vulnerabilities_menu(rows, columns, box_width, box_height)
+             
+        elif choice == "3":
             clear_console()
             pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выход из программы.", box_width, box_height)), pystyle.Colors.red_to_purple, interval=0.002)
             break
