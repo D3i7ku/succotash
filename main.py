@@ -101,14 +101,21 @@ def count_letters(sentence):
 def execute_xsrfprobe():
     """Выполняет команды для установки и запуска xsrfprobe."""
     try:
-         subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
-         import xsrfprobe  # Import the package
-         print("xsrfprobe is installed and ready to use. Please see --help to learn more")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
+        
+        # Run xsrfprobe --help and capture the output
+        process = subprocess.Popen([sys.executable, "-m", "xsrfprobe", "--help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        
+        if process.returncode == 0:
+            print(stdout.decode()) # Prints the output of the program
+        else:
+            print(f"Error executing xsrfprobe --help: {stderr.decode()}")
+   
     except subprocess.CalledProcessError as e:
         print(f"Error installing xsrfprobe: {e}")
-    except ImportError:
-        print("Error: xsrfprobe not installed correctly. Please see --help to learn more.")
-
+    except FileNotFoundError:
+        print("Error: xsrfprobe not found. Please make sure it is installed.")
 
 
 def vulnerabilities_menu(rows, columns, box_width, box_height):
