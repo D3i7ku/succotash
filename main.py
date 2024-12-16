@@ -19,10 +19,6 @@ if platform.system() == "Windows":
     enter = pystyle.Colorate.Horizontal(pystyle.Colors.green_to_cyan, ('Welcome To SUCCOTASH, Press "ENTER" to continue!'))
     pystyle.Anime.Fade(
     pystyle.Center.Center('''
-
-
-
-
                                      
 ███████╗██╗   ██╗ ██████╗ ██████╗ ██████╗ ████████╗ █████╗ ███████╗██╗  ██╗
 ██╔════╝██║   ██║██╔════╝██╔════╝██╔═══██╗╚══██╔══╝██╔══██╗██╔════╝██║  ██║
@@ -35,8 +31,8 @@ if platform.system() == "Windows":
                                         Press To Enter
                                           
                                           
-                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical)
-    input() # Wait for Enter to be pressed
+                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical, enter=True)
+
 
 RESET = "\033[0m"
 GREEN_TEXT = "\033[32m"
@@ -131,17 +127,20 @@ def execute_xsrfprobe():
         stdout, stderr = process.communicate()
         
         if process.returncode == 0:
-            clear_console()
+            clear_console() # Clear the console before printing the xsrfprobe --help
             print(stdout.decode()) # Prints the output of the program
-            return # Return to main menu after the execution
         else:
             print(f"Error executing xsrfprobe --help: {stderr.decode()}")
+        
+        # Exit the program after xsrfprobe execution
+        sys.exit(0)
+
    
     except subprocess.CalledProcessError as e:
         print(f"Error installing xsrfprobe: {e}")
     except FileNotFoundError:
         print("Error: xsrfprobe not found. Please make sure it is installed.")
-
+        
 
 def vulnerabilities_menu(rows, columns, box_width, box_height):
     """Меню уязвимостей."""
@@ -159,8 +158,7 @@ def vulnerabilities_menu(rows, columns, box_width, box_height):
         choice = get_user_input("\n\n[?] • 𝚂𝚎𝚕𝚎𝚌𝚝 𝙼𝚎𝚗𝚞 𝙸𝚝𝚎𝚖 -> ")
 
         if choice == "1":
-            if execute_xsrfprobe() == None: # If execute_xsrfprobe() returns None, then don't go to poc_menu()
-              continue
+            poc_menu(rows, columns, box_width, box_height)
         elif choice == "2":
             break
         elif choice == "3":
@@ -190,7 +188,7 @@ def poc_menu(rows, columns, box_width, box_height):
              clear_console()
              pystyle.Write.Print(pystyle.Center.XCenter(draw_box("Выполняется установка и запуск XSRFProbe...", box_width, box_height)), pystyle.Colors.green_to_cyan, interval=0.002)
              execute_xsrfprobe()
-             pystyle.Write.Input("\n\n[?] Нажмите Enter для возврата в меню...", pystyle.Colors.green_to_cyan, interval=0.005)
+             #pystyle.Write.Input("\n\n[?] Нажмите Enter для возврата в меню...", pystyle.Colors.green_to_cyan, interval=0.005)
              
         elif choice == "2":
             break
