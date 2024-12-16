@@ -1,9 +1,7 @@
-import time
-import os
 import subprocess
-import webbrowser
-import platform
 import sys
+import platform
+import os
 import pystyle
 import textwrap
 
@@ -103,12 +101,15 @@ def count_letters(sentence):
 def execute_xsrfprobe():
     """Выполняет команды для установки и запуска xsrfprobe."""
     try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
-        subprocess.check_call([sys.executable, "-m", "xsrfprobe", "--help"])
+         subprocess.check_call([sys.executable, "-m", "pip", "install", "xsrfprobe"])
+         import xsrfprobe  # Import the package
+         print("xsrfprobe is installed and ready to use. Please see --help to learn more")
     except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")
-    except FileNotFoundError:
-        print("Error: xsrfprobe not found. Please make sure it is installed.")
+        print(f"Error installing xsrfprobe: {e}")
+    except ImportError:
+        print("Error: xsrfprobe not installed correctly. Please see --help to learn more.")
+
+
 
 def vulnerabilities_menu(rows, columns, box_width, box_height):
     """Меню уязвимостей."""
