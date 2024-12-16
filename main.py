@@ -35,8 +35,8 @@ if platform.system() == "Windows":
                                         Press To Enter
                                           
                                           
-                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical, enter=True)
-
+                                          '''), pystyle.Colors.red_to_purple, pystyle.Colorate.Vertical)
+    input() # Wait for Enter to be pressed
 
 RESET = "\033[0m"
 GREEN_TEXT = "\033[32m"
@@ -131,7 +131,9 @@ def execute_xsrfprobe():
         stdout, stderr = process.communicate()
         
         if process.returncode == 0:
+            clear_console()
             print(stdout.decode()) # Prints the output of the program
+            return # Return to main menu after the execution
         else:
             print(f"Error executing xsrfprobe --help: {stderr.decode()}")
    
@@ -157,7 +159,8 @@ def vulnerabilities_menu(rows, columns, box_width, box_height):
         choice = get_user_input("\n\n[?] • 𝚂𝚎𝚕𝚎𝚌𝚝 𝙼𝚎𝚗𝚞 𝙸𝚝𝚎𝚖 -> ")
 
         if choice == "1":
-            poc_menu(rows, columns, box_width, box_height)
+            if execute_xsrfprobe() == None: # If execute_xsrfprobe() returns None, then don't go to poc_menu()
+              continue
         elif choice == "2":
             break
         elif choice == "3":
